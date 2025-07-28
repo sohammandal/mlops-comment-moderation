@@ -95,10 +95,8 @@ mlops-comment-moderation/
 │   ├── train/                # Training, preprocessing, evaluation
 │   └── ui/                   # Streamlit frontend
 ├── .env.example              # Sample environment config (copy to .env)
-├── .gitignore
 ├── .pre-commit-config.yaml   # Pre-commit hooks for linting/formatting
 ├── pyproject.toml            # Project and dev config
-├── README.md
 └── uv.lock                   # Locked dependencies
 ```
 
