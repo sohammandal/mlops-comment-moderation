@@ -1,7 +1,7 @@
 
 # Data Folder
 
-Put your data here. The comments data can be downloaded directly from Google Drive or from Kaggle + running `notebooks/data_prep.ipynb` This folder is **gitignored**.
+Put your data here. The comments data can be downloaded directly from Google Drive or from Kaggle + running `notebooks/data_prep.ipynb`. These two files below are **gitignored**.
 
 ```
 data/
