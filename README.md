@@ -1,6 +1,6 @@
 # 🚨 Real-Time Comment Moderation with MLOps
 
-> An end-to-end machine learning pipeline to detect and flag inappropriate online comments - in real time — with built-in monitoring, explainability and live inference.
+> An end-to-end machine learning pipeline to detect and flag inappropriate online comments - in real time - with built-in monitoring, explainability and live inference.
 
 This project implements a production-grade MLOps workflow using modern Python tools and AWS infrastructure. It demonstrates how NLP-based moderation systems can be developed, deployed and maintained collaboratively with full lifecycle support.
 
@@ -8,7 +8,7 @@ This project implements a production-grade MLOps workflow using modern Python to
 
 ## Business Problem
 
-Online platforms face growing pressure to moderate user-generated content for safety, civility and compliance. Our goal is to build an end-to-end MLOps pipeline that flags inappropriate comments in real time - with explainability, monitoring and automation — to support safer user interactions at scale.
+Online platforms face growing pressure to moderate user-generated content for safety, civility and compliance. Our goal is to build an end-to-end MLOps pipeline that flags inappropriate comments in real time - with explainability, monitoring and automation - to support safer user interactions at scale.
 
 ---
 
