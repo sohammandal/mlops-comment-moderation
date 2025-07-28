@@ -86,21 +86,20 @@ To test model robustness in real-world conditions:
 
 ```
 mlops-comment-moderation/
-├── .env.example              # Sample environment config (copy to .env)
-├── .gitignore
-├── .pre-commit-config.yaml   # Pre-commit hooks for linting/formatting
-├── pyproject.toml            # Project and dev config
-├── uv.lock                   # Locked dependencies
-├── README.md
 ├── data/                     # Local data only (gitignored)
 ├── docker/                   # Dockerfile and Compose setup
 ├── notebooks/                # EDA, experiments
 ├── src/
 │   ├── api/                  # FastAPI backend
-│   ├── ui/                   # Streamlit frontend
+│   ├── monitoring/           # Evidently checks and reports
 │   ├── train/                # Training, preprocessing, evaluation
-│   └── monitoring/           # Evidently checks and reports
-└── models/                   # (optional) local model storage (gitignored)
+│   └── ui/                   # Streamlit frontend
+├── .env.example              # Sample environment config (copy to .env)
+├── .gitignore
+├── .pre-commit-config.yaml   # Pre-commit hooks for linting/formatting
+├── pyproject.toml            # Project and dev config
+├── README.md
+└── uv.lock                   # Locked dependencies
 ```
 
 ---
