@@ -74,11 +74,19 @@ To test model robustness in real-world conditions:
     source .venv/bin/activate
     ```
 
-4. **Run linters and hooks**:
-    ```bash
-    pre-commit install
-    pre-commit run --all-files
-    ```
+4. **Set up pre-commit (run once):**
+
+   ```bash
+   pre-commit install
+   ```
+
+   > This installs Git hooks so checks run automatically on every commit - you only need to do this once.
+
+5. **(Optional) Run pre-commit on all files:**
+
+   ```bash
+   pre-commit run --all-files
+   ```
 
 ---
 
