@@ -1,4 +1,4 @@
-# 🚨 Real-Time Comment Moderation with MLOps
+# Real-Time Comment Moderation with MLOps
 
 > An end-to-end machine learning pipeline to detect and flag inappropriate online comments - in real time - with built-in monitoring, explainability and live inference.
 
