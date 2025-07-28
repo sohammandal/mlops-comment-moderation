@@ -1,0 +1,9 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.12.2
+    hooks:
+      - id: ruff-check
+        args: [--fix]            # Automatically fix linting issues
+        types_or: [python, pyi]  # Only run on Python files
+      - id: ruff-format
+        types_or: [python, pyi]  # Run formatter (like Black)
