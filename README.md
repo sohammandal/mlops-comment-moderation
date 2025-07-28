@@ -88,6 +88,14 @@ To test model robustness in real-world conditions:
    pre-commit run --all-files
    ```
 
+### What Happens If Hooks Fail?
+
+* If a hook auto-fixes code (e.g., formatting with `ruff`), the commit will be blocked.
+* Simply **`git add .` and commit again** - your files will now be fixed and pass.
+* If errors remain (like lint violations), you must resolve them manually before committing.
+
+After the initial setup, hooks run automatically on changed files during `git commit` - **no need to run `pre-commit` manually each time**.
+
 ---
 
 ## Project Structure
