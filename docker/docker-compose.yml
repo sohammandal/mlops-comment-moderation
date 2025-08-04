@@ -1,0 +1,37 @@
+services:
+  api:
+    container_name: comment-api
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: mlops-comment-api:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../src:/app/src
+      - ../data:/app/data
+    env_file:
+      - ../.env
+
+  # mlflow:
+  #   container_name: mlflow-server
+  #   image: mlflow:latest
+  #   ports:
+  #     - "5000:5000"
+  #   volumes:
+  #     - ../mlruns:/mlruns       # local experiment tracking
+  #     - ../artifacts:/artifacts # model artifacts
+  #   env_file:
+  #     - ../.env
+  #   # Future: Configure MLFLOW_TRACKING_URI and S3 artifact store
+
+  # evidently:
+  #   container_name: evidently-monitor
+  #   image: evidentlyai/evidently:latest
+  #   ports:
+  #     - "8501:8501"
+  #   volumes:
+  #     - ../monitoring:/monitoring
+  #   env_file:
+  #     - ../.env
+  #   # Future: Auto-generate drift reports or dashboards
