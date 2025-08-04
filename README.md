@@ -97,6 +97,15 @@ To test model robustness in real-world conditions:
    pre-commit run --all-files
    ```
 
+6. **Run FastAPI app in Docker locally:**
+
+   ```bash
+   docker compose -f docker/docker-compose.yml up --build
+   ```
+
+- Access the API at: http://localhost:8000
+- View interactive API docs (Swagger UI): http://localhost:8000/docs
+
 ### What Happens If Hooks Fail?
 
 * If a hook auto-fixes code (e.g., formatting with `ruff`), the commit will be blocked.
