@@ -97,7 +97,7 @@ To test model robustness in real-world conditions:
    pre-commit run --all-files
    ```
 
-6. **Run FastAPI app in Docker locally:**
+6. **Run with Docker Compose locally:**
 
    ```bash
    docker compose -f docker/docker-compose.yml up --build
