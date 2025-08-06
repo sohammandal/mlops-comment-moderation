@@ -1,2 +1,40 @@
-# Exclude the project virtual environment from image builds
-.venv
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+.env
+.env.*
+
+# IDE/editor configs
+.vscode/
+.idea/
+*.swp
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Test & coverage reports
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local data and artifacts
+data/
+mlruns/
+artifacts/
+monitoring/
+
+# Notebooks outputs (optional)
+*.ipynb_checkpoints
+
+# Dependency caches
+*.egg-info/
+pip-wheel-metadata/
+
+# Docker files and compose override logs
+docker-compose.override.yml

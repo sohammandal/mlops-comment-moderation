@@ -17,12 +17,20 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # Runtime stage (lighter, no uv)
 FROM python:3.11-slim-bookworm AS runtime
 
+# Install curl for healthcheck
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
 # Copy only app files and its venv
 COPY --from=builder /app /app
 ENV PATH="/app/.venv/bin:$PATH"
 
 WORKDIR /app
-EXPOSE 8000
 
-CMD ["/app/.venv/bin/uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+# Exposed ports (API on 8000, Streamlit on 8501)
+EXPOSE 8000 8501
+
+# Use ENTRYPOINT so CMD can be overridden in docker-compose
+ENTRYPOINT []
+CMD ["uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
 

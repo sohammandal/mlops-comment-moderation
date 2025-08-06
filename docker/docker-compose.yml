@@ -12,26 +12,29 @@ services:
       - ../data:/app/data
     env_file:
       - ../.env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 5
+      start_period: 0s
 
-  # mlflow:
-  #   container_name: mlflow-server
-  #   image: mlflow:latest
-  #   ports:
-  #     - "5000:5000"
-  #   volumes:
-  #     - ../mlruns:/mlruns       # local experiment tracking
-  #     - ../artifacts:/artifacts # model artifacts
-  #   env_file:
-  #     - ../.env
-  #   # Future: Configure MLFLOW_TRACKING_URI and S3 artifact store
-
-  # evidently:
-  #   container_name: evidently-monitor
-  #   image: evidentlyai/evidently:latest
-  #   ports:
-  #     - "8501:8501"
-  #   volumes:
-  #     - ../monitoring:/monitoring
-  #   env_file:
-  #     - ../.env
-  #   # Future: Auto-generate drift reports or dashboards
+  
+  ui:
+    container_name: comment-ui
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: mlops-comment-ui:latest
+    command: streamlit run src/ui/app.py --server.port=8501 --server.address=0.0.0.0
+    ports:
+      - "8501:8501"
+    volumes:
+      - ../src:/app/src
+    env_file:
+      - ../.env
+    environment:
+      - DOCKER_ENV=true
+    depends_on:
+      api:
+        condition: service_healthy
