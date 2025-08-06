@@ -103,7 +103,7 @@ To test model robustness in real-world conditions:
    docker compose -f docker/docker-compose.yml up --build
    ```
 
-- Access the API at: http://localhost:8000
+- Access the Streamlit app at: http://localhost:8501
 - View interactive API docs (Swagger UI): http://localhost:8000/docs
 
 ### What Happens If Hooks Fail?
