@@ -211,3 +211,5 @@ __marimo__/
 # Exclude train and test CSVs in data/
 data/comments_train.csv
 data/comments_test.csv
+
+notebooks/DistilBERT.*

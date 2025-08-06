@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from .models import CommentRequest, PredictionResponse
+from .inference import model_instance
 
-# Initialize FastAPI app
 app = FastAPI(
     title="Comment Moderation API",
     description="API for real-time comment moderation with MLOps support",
@@ -9,7 +9,6 @@ app = FastAPI(
 )
 
 
-# Health check endpoint
 @app.get("/health")
 def health():
     """
@@ -18,29 +17,15 @@ def health():
     return {"status": "ok", "message": "API is healthy"}
 
 
-# Request schema for predictions
-class CommentRequest(BaseModel):
-    text: str
-
-
-# Dummy predict endpoint
 @app.post("/predict")
 def predict(req: CommentRequest):
     """
-    Accepts a comment and returns a dummy moderation prediction.
-    Replace with real model inference later.
+    Accepts a comment and returns a moderation prediction.
     """
-    dummy_label = 0  # 0 = clean, 1 = flagged
-    dummy_confidence = 0.95
-
-    return {
-        "comment": req.text,
-        "moderation_label": dummy_label,
-        "confidence": dummy_confidence,
-    }
+    moderation_label, probs = model_instance.predict(req.text)
+    return PredictionResponse(moderation_label=moderation_label, toxic_probs=probs)
 
 
-# Root endpoint
 @app.get("/")
 def root():
     """
