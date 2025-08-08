@@ -213,3 +213,6 @@ data/comments_train.csv
 data/comments_test.csv
 
 notebooks/DistilBERT.*
+
+mlruns/
+*.joblib

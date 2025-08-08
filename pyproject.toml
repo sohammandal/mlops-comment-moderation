@@ -6,9 +6,12 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "boto3>=1.39.14",
+    "catboost>=1.2.8",
     "evidently>=0.7.11",
     "fastapi>=0.116.1",
+    "flaml>=2.3.5",
     "jupyter>=1.1.1",
+    "lightgbm>=4.6.0",
     "mlflow>=3.1.4",
     "pandas>=2.3.1",
     "pre-commit>=4.2.0",
@@ -21,4 +24,5 @@ dependencies = [
     "torch>=2.7.1",
     "transformers>=4.54.0",
     "uvicorn>=0.35.0",
+    "xgboost>=3.0.3",
 ]
