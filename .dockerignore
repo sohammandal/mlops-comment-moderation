@@ -1,40 +1,75 @@
-# Python cache
+# -----------------------
+# Python cache & metadata
+# -----------------------
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.so
+*.egg-info/
+pip-wheel-metadata/
+__pypackages__/
 
+# -----------------------
 # Virtual environments
+# -----------------------
 .venv/
 .env
 .env.*
 
-# IDE/editor configs
+# -----------------------
+# OS / IDE / Editor
+# -----------------------
+.DS_Store
+Thumbs.db
 .vscode/
 .idea/
 *.swp
 
-# OS-generated files
-.DS_Store
-Thumbs.db
-
+# -----------------------
 # Test & coverage reports
+# -----------------------
 .pytest_cache/
 .coverage
 htmlcov/
+tests/
 
-# Local data and artifacts
+# -----------------------
+# Local data & artifacts
+# -----------------------
 data/
-mlruns/
+datasets/
 artifacts/
+mlruns/
 monitoring/
+logs/
+outputs/
+checkpoints/
 
-# Notebooks outputs (optional)
-*.ipynb_checkpoints
+# -----------------------
+# Jupyter notebooks (optional)
+# -----------------------
+*.ipynb
+*.ipynb_checkpoints/
 
-# Dependency caches
-*.egg-info/
-pip-wheel-metadata/
+# -----------------------
+# Build & dist artifacts
+# -----------------------
+build/
+dist/
 
-# Docker files and compose override logs
+# -----------------------
+# Docker / Git
+# -----------------------
 docker-compose.override.yml
+.dockerignore
+Dockerfile
+.git
+.gitignore
+.gitattributes
+
+# -----------------------
+# Caches
+# -----------------------
+.cache/
+cache/

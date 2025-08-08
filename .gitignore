@@ -216,3 +216,14 @@ notebooks/DistilBERT.*
 
 mlruns/
 *.joblib
+
+infra/terraform/terraform.tfvars
+*.pem
+*.key
+*.pub
+
+# Local Terraform files
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
