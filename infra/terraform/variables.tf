@@ -22,3 +22,8 @@ variable "allowed_ssh_cidr" {
   type    = string
   default = "0.0.0.0/0" # Overridden in tfvars for better security
 }
+
+variable "ecr_repo_name" {
+  type    = string
+  default = "mlops-comment"
+}

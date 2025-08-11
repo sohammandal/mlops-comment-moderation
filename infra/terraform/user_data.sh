@@ -3,23 +3,21 @@ set -eux
 
 # Install prerequisites
 apt-get update -y
-apt-get install -y ca-certificates curl gnupg lsb-release
+apt-get install -y ca-certificates curl gnupg lsb-release awscli
 
-# Add Docker's GPG key and repo
+# Add Docker repo
 install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
   | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
-  https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" \
-  | tee /etc/apt/sources.list.d/docker.list > /dev/null
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+  > /etc/apt/sources.list.d/docker.list
 
 # Install Docker and Compose plugin
 apt-get update -y
-apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin git curl
+apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin git
 
-# Enable Docker for the ubuntu user
+# Enable Docker for ubuntu user
 usermod -aG docker ubuntu
 systemctl enable docker
 systemctl start docker
@@ -28,14 +26,26 @@ systemctl start docker
 mkdir -p /opt/app
 chown -R ubuntu:ubuntu /opt/app
 
-# Clone repo, create .env, run Docker Compose, then prune build cache
+# Clone repo and set .env with ECR url
 sudo -u ubuntu bash -c '
   cd /opt/app
   git clone https://github.com/sohammandal/mlops-comment-moderation.git .
-  # Create placeholder .env so docker compose does not fail
-  echo "# Auto-generated placeholder .env" > .env
-  echo "DEBUG=true" >> .env
-  docker compose -f docker/docker-compose.yml up -d --build
-  # Free disk space by removing unused images/layers
-  docker builder prune -af
+  echo "ECR_REPOSITORY_URL=${ecr_url}" >> .env
 '
+
+# Login to ECR using instance role, pull with retries, run
+REGISTRY="$(echo "${ecr_url}" | cut -d/ -f1)"
+aws ecr get-login-password --region ${AWS_DEFAULT_REGION:-us-east-2} \
+  | docker login --username AWS --password-stdin "$REGISTRY"
+
+cd /opt/app
+for i in {1..20}; do
+  if docker compose -f docker/docker-compose.yml pull; then
+    break
+  fi
+  echo "Image not available yet - retrying in 30s..."
+  sleep 30
+done
+
+docker compose -f docker/docker-compose.yml up -d
+docker image prune -af

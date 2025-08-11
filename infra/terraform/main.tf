@@ -83,13 +83,65 @@ resource "aws_instance" "app" {
   subnet_id                   = data.aws_subnets.default_vpc_subnets.ids[0]
   vpc_security_group_ids      = [aws_security_group.web.id]
   associate_public_ip_address = true
+  iam_instance_profile        = aws_iam_instance_profile.ec2_ecr_read_profile.name
 
-  user_data = file("${path.module}/user_data.sh")
-
-#   root_block_device {
-#     volume_size = 20
-#     volume_type = "gp3"
-#   }
+  user_data = templatefile("${path.module}/user_data.sh", {
+    ecr_url = aws_ecr_repository.mlops.repository_url
+  })
 
   tags = { Name = "mlops-comment-moderation" }
 }
+
+
+# ECR repository
+resource "aws_ecr_repository" "mlops" {
+  name                 = var.ecr_repo_name
+  image_tag_mutability = "IMMUTABLE"
+  force_delete         = true
+
+  encryption_configuration {
+    encryption_type = "AES256"
+  }
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+
+  tags = {
+    Project = "mlops-comment-moderation"
+    Managed = "terraform"
+  }
+}
+
+# Lifecycle policy
+# 1) expire untagged after 7 days
+# 2) keep last 10 images per tag
+resource "aws_ecr_lifecycle_policy" "mlops" {
+  repository = aws_ecr_repository.mlops.name
+  policy     = jsonencode({
+    rules = [
+      {
+        rulePriority = 1,
+        description  = "Expire untagged after 7 days",
+        selection    = {
+          tagStatus   = "untagged",
+          countType   = "sinceImagePushed",
+          countUnit   = "days",
+          countNumber = 7
+        },
+        action = { type = "expire" }
+      },
+      {
+        rulePriority = 2,
+        description  = "Keep last 10 per tag",
+        selection    = {
+          tagStatus   = "any",
+          countType   = "imageCountMoreThan",
+          countNumber = 10
+        },
+        action = { type = "expire" }
+      }
+    ]
+  })
+}
+
