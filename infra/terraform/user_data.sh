@@ -26,18 +26,22 @@ systemctl start docker
 mkdir -p /opt/app
 chown -R ubuntu:ubuntu /opt/app
 
+# Store the Terraform-substituted ECR URL in a shell variable
+ECR_URL="${ecr_url}"
+
 # Clone repo and set .env with ECR url
-sudo -u ubuntu bash -c '
+sudo -u ubuntu bash -c "
   cd /opt/app
   git clone https://github.com/sohammandal/mlops-comment-moderation.git .
-  echo "ECR_REPOSITORY_URL=$${ecr_url}" >> .env
-'
+  echo \"ECR_REPOSITORY_URL=$ECR_URL\" >> .env
+"
 
-# Login to ECR using instance role, pull with retries, run
-REGISTRY="$(echo "$${ecr_url}" | cut -d/ -f1)"
-aws ecr get-login-password --region $${AWS_DEFAULT_REGION:-us-east-2} \
+# Login to ECR using instance role
+REGISTRY="$(echo "$ECR_URL" | cut -d/ -f1)"
+aws ecr get-login-password --region ${AWS_DEFAULT_REGION:-us-east-2} \
   | docker login --username AWS --password-stdin "$REGISTRY"
 
+# Pull image with retries
 cd /opt/app
 for i in {1..20}; do
   if docker compose -f docker/docker-compose.yml pull; then
@@ -47,5 +51,7 @@ for i in {1..20}; do
   sleep 30
 done
 
+# Start containers
 docker compose -f docker/docker-compose.yml up -d
 docker image prune -af
+echo "Container status:" && docker ps
