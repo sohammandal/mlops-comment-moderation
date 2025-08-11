@@ -3,6 +3,7 @@
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![AWS](https://custom-icon-badges.demolab.com/badge/AWS-%23FF9900.svg?logo=aws&logoColor=white)](https://aws.amazon.com)
+[![Terraform](https://img.shields.io/badge/Terraform-%235835CC.svg?logo=terraform&logoColor=white)](https://www.terraform.io/)
 [![MLflow](https://img.shields.io/badge/MLflow-0194E2?logo=mlflow&logoColor=white)](https://mlflow.org/)
 [![Evidently](https://img.shields.io/badge/Evidently-eb2405)](https://www.evidentlyai.com/)
 [![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff)](https://www.docker.com)
@@ -41,7 +42,7 @@ Online platforms face growing pressure to moderate user-generated content for sa
 
 ---
 
-## “Changed” Test Data
+## "Changed" Test Data
 
 To test model robustness in real-world conditions:
 - We modify test comments using techniques like synonym swaps or tone softening
@@ -54,13 +55,27 @@ To test model robustness in real-world conditions:
 
 | Layer              | Tool/Service                        |
 |--------------------|-------------------------------------|
-| Modeling           | DistilBERT + AutoML (FLAML/H2O)     |
+| Modeling           | DistilBERT + AutoML (FLAML/H2O)    |
 | Experiment Tracking| MLflow                              |
 | Monitoring         | Evidently                           |
 | Model Serving      | FastAPI + Docker                    |
-| Deployment         | AWS EC2 (Dockerized)                |
+| Container Registry | AWS ECR                             |
+| Infrastructure     | AWS EC2 + Terraform                 |
+| CI/CD              | GitHub Actions                      |
 | Frontend           | Streamlit                           |
 | Dev Tools          | `uv`, `ruff`, `pre-commit`          |
+
+---
+
+## Deployment Architecture
+
+```
+GitHub → GitHub Actions → AWS ECR → AWS EC2 (via Terraform)
+   ↓           ↓             ↓           ↓
+Code Push → Build & Push → Store Image → Pull & Deploy
+```
+
+**Current Model**: `unitary/toxic-bert` (BERT-based transformer for toxicity detection)
 
 ---
 
@@ -100,7 +115,8 @@ To test model robustness in real-world conditions:
 6. **Run with Docker Compose locally:**
 
    ```bash
-   docker compose -f docker/docker-compose.yml up --build
+   # Use the local development compose file
+   docker compose -f docker/docker-compose.local.yml up --build
    ```
 
 - Access the Streamlit app at: http://localhost:8501
@@ -116,12 +132,45 @@ After the initial setup, hooks run automatically on changed files during `git co
 
 ---
 
+## AWS Deployment
+
+### Prerequisites
+1. AWS CLI configured with appropriate permissions
+2. Terraform installed
+3. SSH key pair for EC2 access
+
+### Deployment Process
+1. **Build and push to ECR** (automated via GitHub Actions):
+   ```bash
+   git push origin main  # Triggers CI/CD pipeline
+   ```
+
+2. **Deploy infrastructure**:
+   ```bash
+   cd infra/terraform
+   terraform init
+   terraform apply
+   ```
+
+3. **Access your deployed app**:
+   - API docs: `http://<ec2-public-dns>:8000/docs`
+   - Streamlit UI: `http://<ec2-public-dns>:8501`
+
+4. **Clean up** (to avoid costs):
+   ```bash
+   terraform destroy
+   ```
+
+---
+
 ## Project Structure
 
 ```
 mlops-comment-moderation/
+├── .github/workflows/        # GitHub Actions CI/CD
 ├── data/                     # Local data only (gitignored)
 ├── docker/                   # Dockerfile and Compose setup
+├── infra/terraform/          # AWS infrastructure as code
 ├── notebooks/                # EDA, experiments
 ├── src/
 │   ├── api/                  # FastAPI backend
