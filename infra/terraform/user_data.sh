@@ -26,16 +26,16 @@ systemctl start docker
 mkdir -p /opt/app
 chown -R ubuntu:ubuntu /opt/app
 
-# Clone repo and set .env with ECR url (substituted by Terraform)
+# Clone repo and set .env with ECR URL (Terraform will substitute ${ecr_url})
 sudo -u ubuntu bash -c "
   cd /opt/app
   git clone https://github.com/sohammandal/mlops-comment-moderation.git .
-  echo \"ECR_REPOSITORY_URL=$${ecr_url}\" >> .env
+  echo \"ECR_REPOSITORY_URL=${ecr_url}\" >> .env
 "
 
-# Login to ECR using instance role
-REGISTRY="$(echo "$${ecr_url}" | cut -d/ -f1)"
-aws ecr get-login-password --region $${AWS_DEFAULT_REGION:-us-east-2} \
+# Login to ECR using instance role (Terraform will substitute ${ecr_url})
+REGISTRY="$(echo "${ecr_url}" | cut -d/ -f1)"
+aws ecr get-login-password --region ${AWS_DEFAULT_REGION:-us-east-2} \
   | docker login --username AWS --password-stdin "$REGISTRY"
 
 # Pull image with retries
