@@ -97,7 +97,7 @@ resource "aws_instance" "app" {
 # ECR repository
 resource "aws_ecr_repository" "mlops" {
   name                 = var.ecr_repo_name
-  image_tag_mutability = "IMMUTABLE"
+  image_tag_mutability = "MUTABLE"
   force_delete         = true
 
   encryption_configuration {

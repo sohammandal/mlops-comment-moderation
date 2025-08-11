@@ -41,7 +41,7 @@ aws ecr get-login-password --region ${aws_region} \
 # Pull image with retries
 cd /opt/app
 for i in {1..20}; do
-  if docker compose -f docker/docker-compose.yml pull; then
+  if docker compose -f docker/docker-compose.yml --env-file .env pull; then
     break
   fi
   echo "Image not available yet - retrying in 30s..."
@@ -49,6 +49,6 @@ for i in {1..20}; do
 done
 
 # Start containers
-docker compose -f docker/docker-compose.yml up -d
+docker compose -f docker/docker-compose.yml --env-file .env up -d
 docker image prune -af
 echo "Container status:" && docker ps

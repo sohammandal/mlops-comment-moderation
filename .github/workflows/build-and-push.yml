@@ -4,6 +4,10 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+concurrency:
+  group: build-and-push
+  cancel-in-progress: true
+
 env:
   AWS_REGION: us-east-2
   ECR_REPO: mlops-comment
