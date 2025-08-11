@@ -30,12 +30,12 @@ chown -R ubuntu:ubuntu /opt/app
 sudo -u ubuntu bash -c '
   cd /opt/app
   git clone https://github.com/sohammandal/mlops-comment-moderation.git .
-  echo "ECR_REPOSITORY_URL=${ecr_url}" >> .env
+  echo "ECR_REPOSITORY_URL=$${ecr_url}" >> .env
 '
 
 # Login to ECR using instance role, pull with retries, run
-REGISTRY="$(echo "${ecr_url}" | cut -d/ -f1)"
-aws ecr get-login-password --region ${AWS_DEFAULT_REGION:-us-east-2} \
+REGISTRY="$(echo "$${ecr_url}" | cut -d/ -f1)"
+aws ecr get-login-password --region $${AWS_DEFAULT_REGION:-us-east-2} \
   | docker login --username AWS --password-stdin "$REGISTRY"
 
 cd /opt/app
