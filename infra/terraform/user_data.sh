@@ -26,14 +26,14 @@ systemctl start docker
 mkdir -p /opt/app
 chown -R ubuntu:ubuntu /opt/app
 
-# Clone repo and set .env with ECR URL (Terraform will substitute ${ecr_url})
+# Clone repo and set .env with ECR URL (substituted by Terraform)
 sudo -u ubuntu bash -c "
   cd /opt/app
   git clone https://github.com/sohammandal/mlops-comment-moderation.git .
-  echo \"ECR_REPOSITORY_URL=${ecr_url}\" >> .env
+  echo \"ECR_REPOSITORY_URL=${ecr_url}\" > .env
 "
 
-# Login to ECR using instance role (Terraform will substitute ${ecr_url})
+# Login to ECR using instance role
 REGISTRY="$(echo "${ecr_url}" | cut -d/ -f1)"
 aws ecr get-login-password --region ${aws_region} \
   | docker login --username AWS --password-stdin "$REGISTRY"
@@ -41,7 +41,7 @@ aws ecr get-login-password --region ${aws_region} \
 # Pull image with retries
 cd /opt/app
 for i in {1..20}; do
-  if docker compose -f docker/docker-compose.yml --env-file .env pull; then
+  if docker compose --env-file .env -f docker/docker-compose.yml pull; then
     break
   fi
   echo "Image not available yet - retrying in 30s..."
@@ -49,6 +49,6 @@ for i in {1..20}; do
 done
 
 # Start containers
-docker compose -f docker/docker-compose.yml --env-file .env up -d
+docker compose --env-file .env -f docker/docker-compose.yml up -d
 docker image prune -af
 echo "Container status:" && docker ps
