@@ -5,7 +5,7 @@ variable "region" {
 
 variable "instance_type" {
   type    = string
-  default = "t2.micro"
+  default = "t3.medium"  # 2 vCPUs, 4GB RAM
 }
 
 variable "ssh_key_name" {
