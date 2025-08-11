@@ -35,7 +35,7 @@ sudo -u ubuntu bash -c "
 
 # Login to ECR using instance role (Terraform will substitute ${ecr_url})
 REGISTRY="$(echo "${ecr_url}" | cut -d/ -f1)"
-aws ecr get-login-password --region ${AWS_DEFAULT_REGION:-us-east-2} \
+aws ecr get-login-password --region ${aws_region} \
   | docker login --username AWS --password-stdin "$REGISTRY"
 
 # Pull image with retries

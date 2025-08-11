@@ -86,7 +86,8 @@ resource "aws_instance" "app" {
   iam_instance_profile        = aws_iam_instance_profile.ec2_ecr_read_profile.name
 
   user_data = templatefile("${path.module}/user_data.sh", {
-    ecr_url = aws_ecr_repository.mlops.repository_url
+    ecr_url    = aws_ecr_repository.mlops.repository_url
+    aws_region = var.region
   })
 
   tags = { Name = "mlops-comment-moderation" }
