@@ -26,11 +26,15 @@ systemctl start docker
 mkdir -p /opt/app
 chown -R ubuntu:ubuntu /opt/app
 
-# Clone repo and set .env with ECR URL (substituted by Terraform)
+# Clone repo and set .env with ECR URL and MODEL_PATH
 sudo -u ubuntu bash -c "
   cd /opt/app
   git clone https://github.com/sohammandal/mlops-comment-moderation.git .
-  echo \"ECR_REPOSITORY_URL=${ecr_url}\" > .env
+
+  cat <<EOF > .env
+ECR_REPOSITORY_URL=${ecr_url}
+MODEL_PATH=s3://${artifact_bucket_name}/models/latest.joblib
+EOF
 "
 
 # Login to ECR using instance role

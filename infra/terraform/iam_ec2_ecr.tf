@@ -24,3 +24,33 @@ resource "aws_iam_instance_profile" "ec2_ecr_read_profile" {
   name = "mlops-ec2-ecr-read"
   role = aws_iam_role.ec2_ecr_read_role.name
 }
+
+data "aws_iam_policy_document" "ec2_s3_artifacts_read" {
+  statement {
+    sid     = "ListBucket"
+    effect  = "Allow"
+    actions = ["s3:ListBucket"]
+    resources = [
+      "arn:aws:s3:::${var.artifact_bucket_name}"
+    ]
+  }
+
+  statement {
+    sid     = "GetObjects"
+    effect  = "Allow"
+    actions = ["s3:GetObject"]
+    resources = [
+      "arn:aws:s3:::${var.artifact_bucket_name}/*"
+    ]
+  }
+}
+
+resource "aws_iam_policy" "ec2_s3_artifacts_read" {
+  name   = "mlops-ec2-s3-artifacts-read"
+  policy = data.aws_iam_policy_document.ec2_s3_artifacts_read.json
+}
+
+resource "aws_iam_role_policy_attachment" "ec2_s3_artifacts_read_attach" {
+  role       = aws_iam_role.ec2_ecr_read_role.name
+  policy_arn = aws_iam_policy.ec2_s3_artifacts_read.arn
+}

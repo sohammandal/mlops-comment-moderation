@@ -86,8 +86,9 @@ resource "aws_instance" "app" {
   iam_instance_profile        = aws_iam_instance_profile.ec2_ecr_read_profile.name
 
   user_data = templatefile("${path.module}/user_data.sh", {
-    ecr_url    = aws_ecr_repository.mlops.repository_url
-    aws_region = var.region
+    ecr_url              = aws_ecr_repository.mlops.repository_url
+    aws_region           = var.region
+    artifact_bucket_name = var.artifact_bucket_name
   })
 
   root_block_device {
