@@ -60,6 +60,7 @@ To test model robustness in real-world conditions:
 | Monitoring         | Evidently                           |
 | Model Serving      | FastAPI + Docker                    |
 | Container Registry | AWS ECR                             |
+| Artifact Storage   | AWS S3                              |
 | Infrastructure     | AWS EC2 + Terraform                 |
 | CI/CD              | GitHub Actions                      |
 | Frontend           | Streamlit                           |
@@ -70,9 +71,9 @@ To test model robustness in real-world conditions:
 ## Deployment Architecture
 
 ```
-GitHub → GitHub Actions → AWS ECR → AWS EC2 (via Terraform)
-   ↓           ↓             ↓           ↓
 Code Push → Build & Push → Store Image → Pull & Deploy
+   ↓           ↓             ↓           ↓
+GitHub → GitHub Actions → AWS ECR → AWS EC2 (via Terraform)
 ```
 
 **Current Model**: `unitary/toxic-bert` (BERT-based transformer for toxicity detection)
