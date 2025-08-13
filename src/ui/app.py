@@ -10,10 +10,12 @@ API_URL = os.getenv(
     else "http://localhost:8000/predict",
 )
 
+MODEL_PATH = os.getenv("MODEL_PATH", "Unknown model")
+
 st.set_page_config(page_title="Comment Moderation", page_icon="🛡️", layout="centered")
 
 st.title("🛡️ Real-Time Comment Moderation")
-st.write("Enter a comment to check for toxicity using **unitary/toxic-bert**")
+st.markdown(f"Enter a comment to check for toxicity using `{MODEL_PATH}`")
 
 # Input box
 comment = st.text_area("💬 Enter your comment:", height=120)
