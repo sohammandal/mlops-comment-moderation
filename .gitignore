@@ -208,9 +208,9 @@ __marimo__/
 
 .DS_Store
 
-# Exclude train and test CSVs in data/
-data/comments_train.csv
-data/comments_test.csv
+# Exclude train and test CSVs in assets/
+assets/comments_train.csv
+assets/comments_test.csv
 
 notebooks/DistilBERT.*
 

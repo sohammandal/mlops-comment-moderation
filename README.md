@@ -22,6 +22,29 @@ Online platforms face growing pressure to moderate user-generated content for sa
 
 ---
 
+## Deployment Architecture
+
+![Deployment Architecture](assets/deployment-architecture.png)
+
+---
+
+## Tech Stack
+
+| Layer              | Tool/Service                        |
+|--------------------|-------------------------------------|
+| Modeling           | DistilBERT + AutoML (FLAML/H2O)    |
+| Experiment Tracking| MLflow                              |
+| Monitoring         | Evidently                           |
+| Model Serving      | FastAPI + Docker                    |
+| Container Registry | AWS ECR                             |
+| Artifact Storage   | AWS S3                              |
+| Infrastructure     | AWS EC2 + Terraform                 |
+| CI/CD              | GitHub Actions                      |
+| Frontend           | Streamlit                           |
+| Dev Tools          | `uv`, `ruff`, `pre-commit`          |
+
+---
+
 ## Dataset
 
 - **Source**: [Jigsaw Toxic Comment Classification](https://www.kaggle.com/competitions/jigsaw-toxic-comment-classification-challenge) (Wikipedia talk pages)
@@ -48,35 +71,6 @@ To test model robustness in real-world conditions:
 - We modify test comments using techniques like synonym swaps or tone softening
 - Re-run predictions and capture metric changes
 - Monitor distribution drift and flag outliers using Evidently
-
----
-
-## Tech Stack
-
-| Layer              | Tool/Service                        |
-|--------------------|-------------------------------------|
-| Modeling           | DistilBERT + AutoML (FLAML/H2O)    |
-| Experiment Tracking| MLflow                              |
-| Monitoring         | Evidently                           |
-| Model Serving      | FastAPI + Docker                    |
-| Container Registry | AWS ECR                             |
-| Artifact Storage   | AWS S3                              |
-| Infrastructure     | AWS EC2 + Terraform                 |
-| CI/CD              | GitHub Actions                      |
-| Frontend           | Streamlit                           |
-| Dev Tools          | `uv`, `ruff`, `pre-commit`          |
-
----
-
-## Deployment Architecture
-
-```
-Code Push → Build & Push → Store Image → Pull & Deploy
-   ↓           ↓             ↓           ↓
-GitHub → GitHub Actions → AWS ECR → AWS EC2 (via Terraform)
-```
-
-**Current Model**: `unitary/toxic-bert` (BERT-based transformer for toxicity detection)
 
 ---
 
