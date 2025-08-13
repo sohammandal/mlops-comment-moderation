@@ -163,7 +163,7 @@ After the initial setup, hooks run automatically on changed files during `git co
 ```
 mlops-comment-moderation/
 ├── .github/workflows/        # GitHub Actions CI/CD
-├── data/                     # Local data only (gitignored)
+├── assets/                   # Raw files and data (gitignored)
 ├── docker/                   # Dockerfile and Compose setup
 ├── infra/terraform/          # AWS infrastructure as code
 ├── notebooks/                # EDA, experiments
