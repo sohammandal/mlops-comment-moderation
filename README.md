@@ -24,7 +24,7 @@ Online platforms face growing pressure to moderate user-generated content for sa
 
 ## Deployment Architecture
 
-![Deployment Architecture](assets/deployment-architecture.png)
+![Deployment Architecture](https://raw.githubusercontent.com/sohammandal/mlops-comment-moderation/refs/heads/main/assets/deployment-architecture.png)
 
 ---
 
