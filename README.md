@@ -1,14 +1,13 @@
 # Real-Time Comment Moderation with MLOps
 
-[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![CI/CD](https://img.shields.io/github/actions/workflow/status/sohammandal/mlops-comment-moderation/build-and-push.yml?branch=main&label=CI%2FCD&logo=github)](https://github.com/sohammandal/mlops-comment-moderation/actions/workflows/build-and-push.yml)
 [![AWS](https://custom-icon-badges.demolab.com/badge/AWS-%23FF9900.svg?logo=aws&logoColor=white)](https://aws.amazon.com)
 [![Terraform](https://img.shields.io/badge/Terraform-%235835CC.svg?logo=terraform&logoColor=white)](https://www.terraform.io/)
-[![MLflow](https://img.shields.io/badge/MLflow-0194E2?logo=mlflow&logoColor=white)](https://mlflow.org/)
-[![Evidently](https://img.shields.io/badge/Evidently-eb2405)](https://www.evidentlyai.com/)
 [![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff)](https://www.docker.com)
 [![FastAPI](https://img.shields.io/badge/FastAPI-009485.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![Streamlit](https://img.shields.io/badge/-Streamlit-FF4B4B?style=flat&logo=streamlit&logoColor=white)](https://streamlit.io/)
+[![MLflow](https://img.shields.io/badge/MLflow-0194E2?logo=mlflow&logoColor=white)](https://mlflow.org/)
+[![Evidently](https://img.shields.io/badge/Evidently-eb2405)](https://www.evidentlyai.com/)
 
 > An end-to-end machine learning pipeline to detect and flag inappropriate online comments - in real time - with built-in monitoring, explainability and live inference.
 
@@ -32,7 +31,7 @@ Online platforms face growing pressure to moderate user-generated content for sa
 
 | Layer              | Tool/Service                        |
 |--------------------|-------------------------------------|
-| Modeling           | DistilBERT + AutoML (FLAML/H2O)    |
+| Modeling           | Pre-Trained BERT + AutoML (FLAML)   |
 | Experiment Tracking| MLflow                              |
 | Monitoring         | Evidently                           |
 | Model Serving      | FastAPI + Docker                    |
@@ -60,7 +59,7 @@ Online platforms face growing pressure to moderate user-generated content for sa
 |--------------------------|-----------------------------------------------------|
 | TF-IDF + Logistic Regression | Simple, fast, interpretable baseline             |
 | GloVe / FastText + LSTM  | Adds semantic richness to text, but non-contextual |
-| DistilBERT (Transformer) | Contextual, robust, ideal for nuanced phrasing     |
+| Pre-Trained BERT (Transformer) | Contextual, robust, ideal for nuanced phrasing     |
 | AutoML (e.g., FLAML, H2O) | Automatically selects best model + tuning strategy |
 
 ---
@@ -114,12 +113,12 @@ To test model robustness in real-world conditions:
    docker compose -f docker/docker-compose.local.yml up --build
    ```
 
-- Access the Streamlit app at: http://localhost:8501
-- View interactive API docs (Swagger UI): http://localhost:8000/docs
+- Access the Streamlit app at: `http://localhost:8501`
+- View interactive API docs (Swagger UI): `http://localhost:8000/docs`
 
 ### What Happens If Hooks Fail?
 
-* If a hook auto-fixes code (e.g., formatting with `ruff`), the commit will be blocked.
+* If a hook auto-fixes code (e.g. formatting with `ruff`), the commit will be blocked.
 * Simply **`git add .` and commit again** - your files will now be fixed and pass.
 * If errors remain (like lint violations), you must resolve them manually before committing.
 
@@ -135,7 +134,7 @@ After the initial setup, hooks run automatically on changed files during `git co
 3. SSH key pair for EC2 access
 
 ### Deployment Process
-1. **Build and push to ECR** (automated via GitHub Actions):
+1. **Build and push image to ECR** (automated via GitHub Actions):
    ```bash
    git push origin main  # Triggers CI/CD pipeline
    ```
