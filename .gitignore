@@ -227,3 +227,6 @@ infra/terraform/terraform.tfvars
 *.tfstate
 *.tfstate.*
 crash.log
+
+#distillbert model weights
+notebooks/distilbert_model_20250813_165325/
