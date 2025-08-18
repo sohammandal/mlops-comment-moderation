@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import os
+from api.config import MODEL_BACKEND, MODEL_NAME, S3_MODEL_PATH
 
 # FastAPI endpoint (change when deployed remotely)
 API_URL = os.getenv(
@@ -10,7 +11,13 @@ API_URL = os.getenv(
     else "http://localhost:8000/predict",
 )
 
-MODEL_PATH = os.getenv("MODEL_PATH", "Unknown model")
+# Decide what to display based on backend
+if MODEL_BACKEND == "hf":
+    MODEL_PATH = MODEL_NAME
+elif MODEL_BACKEND == "s3":
+    MODEL_PATH = S3_MODEL_PATH
+else:
+    MODEL_PATH = "Unknown model"
 
 st.set_page_config(page_title="Comment Moderation", page_icon="🛡️", layout="centered")
 

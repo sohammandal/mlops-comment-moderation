@@ -7,7 +7,8 @@ Put your data here. The comments data can be downloaded directly from Google Dri
 assets/
 ├── comments_train.csv 
 ├── comments_test.csv 
-└── deployment-architecture.png
+├── deployment-architecture.png
+└── evidently_text_moderation_ref_vs_changed.html # Evidently Report Output
 ```
 
 Make sure these files exist locally before running training or evaluation.

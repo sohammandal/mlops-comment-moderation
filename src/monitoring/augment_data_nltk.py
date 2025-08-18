@@ -6,20 +6,22 @@ import random
 from multiprocessing import Pool
 from tqdm import tqdm
 
+
 # Download necessary NLTK data
 def download_nltk_data():
     try:
-        nltk.data.find('tokenizers/punkt')
+        nltk.data.find("tokenizers/punkt")
     except LookupError:
-        nltk.download('punkt', quiet=True)
+        nltk.download("punkt", quiet=True)
     try:
-        nltk.data.find('corpora/wordnet')
+        nltk.data.find("corpora/wordnet")
     except LookupError:
-        nltk.download('wordnet', quiet=True)
+        nltk.download("wordnet", quiet=True)
     try:
-        nltk.data.find('taggers/averaged_perceptron_tagger')
+        nltk.data.find("taggers/averaged_perceptron_tagger")
     except LookupError:
-        nltk.download('averaged_perceptron_tagger', quiet=True)
+        nltk.download("averaged_perceptron_tagger", quiet=True)
+
 
 def get_synonyms(word):
     """
@@ -27,11 +29,12 @@ def get_synonyms(word):
     """
     synonyms = set()
     for syn in wordnet.synsets(word):
-        for l in syn.lemmas():
-            synonyms.add(l.name())
+        for lemma in syn.lemmas():
+            synonyms.add(lemma.name())
     if word in synonyms:
         synonyms.remove(word)
     return list(synonyms)
+
 
 def synonym_replacement(text, n=1):
     """
@@ -51,8 +54,9 @@ def synonym_replacement(text, n=1):
         if num_replaced >= n:
             break
 
-    sentence = ' '.join(new_words)
+    sentence = " ".join(new_words)
     return sentence
+
 
 def augment_text(text):
     """
@@ -65,6 +69,7 @@ def augment_text(text):
     except Exception:
         return text
 
+
 def parallel_augment(data, num_processes=12):
     """
     Augments a pandas Series in parallel.
@@ -73,6 +78,7 @@ def parallel_augment(data, num_processes=12):
         augmented_text = list(tqdm(p.imap(augment_text, data), total=len(data)))
     return augmented_text
 
+
 if __name__ == "__main__":
     download_nltk_data()
     # Load the data
@@ -80,19 +86,19 @@ if __name__ == "__main__":
 
     # Select 70% of the data to augment
     sample = df.sample(frac=0.7, random_state=42)
-    
+
     # Augment the selected data
-    augmented_comments = parallel_augment(sample['comment_text'])
-    
+    augmented_comments = parallel_augment(sample["comment_text"])
+
     # Create a new dataframe with the augmented data
     augmented_df = sample.copy()
-    augmented_df['comment_text'] = augmented_comments
-    
+    augmented_df["comment_text"] = augmented_comments
+
     # Create the v2 dataframe
     df_v2 = df.copy()
     df_v2.update(augmented_df)
-    
+
     # Save the new data
     df_v2.to_csv("comments_test_v2.csv", index=False)
-    
+
     print("Data augmentation complete. Saved to comments_test_v2.csv")

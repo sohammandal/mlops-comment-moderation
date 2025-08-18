@@ -23,11 +23,16 @@ RUN rm -rf /root/.cache/uv
 ########## RUNTIME ##########
 FROM python:3.11-slim-bookworm AS runtime
 
-# Install minimal OS deps (curl only if needed for healthchecks)
-RUN apt-get update && apt-get install -y --no-install-recommends curl \
+# Install minimal OS deps (curl + libgomp1 for LightGBM/FLAML unpickling)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        curl \
+        libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
+
+# Make Python see /app/src as a top-level package root
+ENV PYTHONPATH=/app/src
 
 # Copy venv from builder (all Python deps)
 COPY --from=builder /app/.venv /app/.venv
