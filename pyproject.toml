@@ -13,6 +13,7 @@ dependencies = [
     "jupyter>=1.1.1",
     "lightgbm>=4.6.0",
     "mlflow>=3.1.4",
+    "nltk>=3.9.1",
     "pandas>=2.3.1",
     "pre-commit>=4.2.0",
     "python-dotenv>=1.1.1",

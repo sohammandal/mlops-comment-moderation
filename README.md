@@ -67,9 +67,9 @@ Online platforms face growing pressure to moderate user-generated content for sa
 ## "Changed" Test Data
 
 To test model robustness in real-world conditions:
-- We modify test comments using techniques like synonym swaps or tone softening
+- We modify test comments using techniques like synonym swaps, typos and noise injection
 - Re-run predictions and capture metric changes
-- Monitor distribution drift and flag outliers using Evidently
+- Monitor distribution drift and flag evaluation metrics using Evidently. See report [here](assets/evidently_report_summary.md)
 
 ---
 
@@ -162,13 +162,13 @@ After the initial setup, hooks run automatically on changed files during `git co
 ```
 mlops-comment-moderation/
 ├── .github/workflows/        # GitHub Actions CI/CD
-├── assets/                   # Raw files and data (gitignored)
+├── assets/                   # Reports, raw files and data
 ├── docker/                   # Dockerfile and Compose setup
 ├── infra/terraform/          # AWS infrastructure as code
 ├── notebooks/                # EDA, experiments
 ├── src/
 │   ├── api/                  # FastAPI backend
-│   ├── monitoring/           # Evidently checks and reports
+│   ├── monitoring/           # Evidently runs and data augmentation
 │   ├── train/                # Training, preprocessing, evaluation
 │   └── ui/                   # Streamlit frontend
 ├── .env.example              # Sample environment config (copy to .env)

@@ -8,7 +8,10 @@ assets/
 ├── comments_train.csv 
 ├── comments_test.csv 
 ├── deployment-architecture.png
+├── evidently_report_summary.md
 └── evidently_text_moderation_ref_vs_changed.html # Evidently Report Output
 ```
 
 Make sure these files exist locally before running training or evaluation.
+
+See Evidently Report Summary [here](evidently_report_summary.md)
