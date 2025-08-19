@@ -29,18 +29,20 @@ Online platforms face growing pressure to moderate user-generated content for sa
 
 ## Tech Stack
 
-| Layer              | Tool/Service                        |
-|--------------------|-------------------------------------|
-| Modeling           | Pre-Trained BERT + AutoML (FLAML)   |
-| Experiment Tracking| MLflow                              |
-| Monitoring         | Evidently                           |
-| Model Serving      | FastAPI + Docker                    |
-| Container Registry | AWS ECR                             |
-| Artifact Storage   | AWS S3                              |
-| Infrastructure     | AWS EC2 + Terraform                 |
-| CI/CD              | GitHub Actions                      |
-| Frontend           | Streamlit                           |
-| Dev Tools          | `uv`, `ruff`, `pre-commit`          |
+| Layer                  | Tool/Service                  |
+|-------------------------|-------------------------------|
+| Modeling                | Pre-Trained BERT, FLAML (AutoML) |
+| Experiment Tracking     | MLflow                        |
+| Model Serving           | FastAPI                       |
+| Containerization        | Docker                        |
+| Container Registry      | AWS ECR                       |
+| Artifact Storage        | AWS S3                        |
+| Compute                 | AWS EC2                       |
+| Infrastructure as Code  | Terraform                     |
+| CI/CD                   | GitHub Actions                |
+| Monitoring              | Evidently                     |
+| Frontend                | Streamlit                     |
+| Dev Tools               | `uv`, `ruff`, `pre-commit`    |
 
 ---
 
