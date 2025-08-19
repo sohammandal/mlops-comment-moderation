@@ -82,10 +82,10 @@ def parallel_augment(data, num_processes=12):
 if __name__ == "__main__":
     download_nltk_data()
     # Load the data
-    df = pd.read_csv("comments_test.csv")
+    df = pd.read_csv("../../assets/comments_test.csv")
 
-    # Select 70% of the data to augment
-    sample = df.sample(frac=0.7, random_state=42)
+    # Select 100% of the data to augment
+    sample = df.sample(frac=1.0, random_state=42)
 
     # Augment the selected data
     augmented_comments = parallel_augment(sample["comment_text"])
@@ -99,6 +99,6 @@ if __name__ == "__main__":
     df_v2.update(augmented_df)
 
     # Save the new data
-    df_v2.to_csv("comments_test_v2.csv", index=False)
+    df_v2.to_csv("../../assets/comments_test_v2_nltk.csv", index=False)
 
-    print("Data augmentation complete. Saved to comments_test_v2.csv")
+    print("Data augmentation complete. Saved to comments_test_v2_nltk.csv")
