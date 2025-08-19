@@ -1,5 +1,7 @@
 ## Evidently Model Evaluation Summary
 
+**Using best AutoML model (TF-IDF plus Logistic Regression with L2 Regularization)**
+
 ### Reference Set (Original Test Data)
 
 | Class     | Precision | Recall | F1-score | Support |
@@ -33,3 +35,15 @@
 
 📊 [Evidently HTML Report](evidently_text_moderation_ref_vs_changed.html)
 
+---
+
+### BERT Model (Unitary Toxic-BERT) Evaluation Comparison
+
+| Class     | Precision | Recall | F1-score | Support |
+| --------- | --------- | ------ | -------- | ------- |
+| 0 (clean) | 0.9891    | 0.9199 | 0.9532   | 57,735  |
+| 1 (toxic) | 0.5502    | 0.9063 | 0.6847   | 6,243   |
+
+**Accuracy:** 0.9186
+**Macro Avg F1:** 0.8190
+**Weighted Avg F1:** 0.9270
