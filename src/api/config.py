@@ -1,5 +1,6 @@
 # config.py
-MODEL_BACKEND = "hf"  # options: "hf" or "s3"
+MODEL_BACKEND = "s3"  # options: "hf" or "s3"
+
 MODEL_NAME = "unitary/toxic-bert"  # used if backend == "hf"
 THRESHOLD = 0.5
 
